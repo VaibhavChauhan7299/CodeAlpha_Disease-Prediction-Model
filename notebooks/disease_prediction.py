@@ -61,3 +61,20 @@ print(df["target"].value_counts().sort_index())
 # Check for invalid/missing values
 print("\nMissing values:")
 print(df.isnull().sum())
+
+# Handle missing values
+df["ca"] = df["ca"].fillna(df["ca"].median())
+df["thal"] = df["thal"].fillna(df["thal"].median())
+
+# Convert target to binary classification
+# 0 = No heart disease
+# 1-4 = Heart disease
+df["target"] = (df["target"] > 0).astype(int)
+
+# Final missing value check
+print("\nMissing values after cleaning:")
+print(df.isnull().sum())
+
+# Final target distribution
+print("\nTarget distribution:")
+print(df["target"].value_counts())
