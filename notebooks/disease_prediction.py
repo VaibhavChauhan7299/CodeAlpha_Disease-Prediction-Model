@@ -7,6 +7,24 @@ df = pd.read_csv(
     header=None
 )
 
+# Rename columns
+df.columns = [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal",
+    "target"
+]
+
 # Display first 5 rows
 print("First 5 rows:")
 print(df.head())
