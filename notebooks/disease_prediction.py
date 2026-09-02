@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # Load the dataset
 df = pd.read_csv(
@@ -18,8 +19,9 @@ print(df.shape)
 print("\nData types:")
 print(df.dtypes)
 
-print("\nMissing value representation:")
-print((df == "?").sum())
+# Convert ? to NaN
+df = df.replace("?", np.nan)
 
-print("\nRows containing missing values:")
-print(df[df.isin(["?"]).any(axis=1)])
+# Display missing values
+print("\nMissing values after conversion:")
+print(df.isnull().sum())
