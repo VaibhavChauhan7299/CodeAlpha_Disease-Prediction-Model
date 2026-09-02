@@ -586,3 +586,49 @@ for model_name, y_pred in predictions.items():
     plt.close()
 
 print("\nConfusion matrices saved successfully!")
+
+# ==========================================
+# ROC CURVE
+# ==========================================
+
+from sklearn.metrics import roc_curve
+
+print("\n========== ROC CURVE ==========")
+
+plt.figure(figsize=(8, 6))
+
+for model_name, y_prob in probabilities.items():
+
+    fpr, tpr, _ = roc_curve(y_test, y_prob)
+
+    auc_score = roc_auc_score(y_test, y_prob)
+
+    plt.plot(
+        fpr,
+        tpr,
+        label=f"{model_name} (AUC = {auc_score:.4f})"
+    )
+
+plt.plot(
+    [0, 1],
+    [0, 1],
+    linestyle="--",
+    label="Random Classifier"
+)
+
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve - Model Comparison")
+plt.legend()
+plt.grid()
+
+plt.tight_layout()
+
+plt.savefig(
+    "eda_plots/roc_curve_comparison.png",
+    dpi=300
+)
+
+plt.close()
+
+print("\nROC curve saved successfully!")
