@@ -80,3 +80,83 @@ print(df.isnull().sum())
 # Final target distribution
 print("\nTarget distribution:")
 print(df["target"].value_counts())
+
+# ==========================================
+# EXPLORATORY DATA ANALYSIS (EDA)
+# ==========================================
+
+print("\n========== EDA ==========")
+
+# Target distribution
+print("\nTarget distribution:")
+print(df["target"].value_counts())
+
+plt.figure(figsize=(6, 4))
+sns.countplot(x="target", data=df)
+plt.title("Heart Disease Distribution")
+plt.xlabel("Heart Disease (0 = No, 1 = Yes)")
+plt.ylabel("Number of Patients")
+plt.show()
+
+
+# Age distribution
+plt.figure(figsize=(8, 5))
+sns.histplot(data=df, x="age", bins=20, kde=True)
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.ylabel("Number of Patients")
+plt.show()
+
+
+# Disease vs Age
+plt.figure(figsize=(8, 5))
+sns.boxplot(x="target", y="age", data=df)
+plt.title("Age vs Heart Disease")
+plt.xlabel("Heart Disease (0 = No, 1 = Yes)")
+plt.ylabel("Age")
+plt.show()
+
+
+# Disease vs Sex
+plt.figure(figsize=(6, 4))
+sns.countplot(x="sex", hue="target", data=df)
+plt.title("Heart Disease by Sex")
+plt.xlabel("Sex (0 = Female, 1 = Male)")
+plt.ylabel("Number of Patients")
+plt.legend(title="Heart Disease")
+plt.show()
+
+
+# Disease vs Chest Pain
+plt.figure(figsize=(8, 5))
+sns.countplot(x="cp", hue="target", data=df)
+plt.title("Heart Disease vs Chest Pain Type")
+plt.xlabel("Chest Pain Type")
+plt.ylabel("Number of Patients")
+plt.legend(title="Heart Disease")
+plt.show()
+
+
+# Cholesterol distribution
+plt.figure(figsize=(8, 5))
+sns.histplot(data=df, x="chol", bins=20, kde=True)
+plt.title("Cholesterol Distribution")
+plt.xlabel("Cholesterol")
+plt.ylabel("Number of Patients")
+plt.show()
+
+
+# Maximum heart rate distribution
+plt.figure(figsize=(8, 5))
+sns.histplot(data=df, x="thalach", bins=20, kde=True)
+plt.title("Maximum Heart Rate Distribution")
+plt.xlabel("Maximum Heart Rate")
+plt.ylabel("Number of Patients")
+plt.show()
+
+
+# Correlation heatmap
+plt.figure(figsize=(12, 8))
+sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
+plt.title("Feature Correlation Heatmap")
+plt.show()
