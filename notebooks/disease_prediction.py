@@ -49,3 +49,15 @@ print(df.dtypes)
 # Display missing values
 print("\nMissing values after conversion:")
 print(df.isnull().sum())
+
+# Check for duplicate rows
+print("\nDuplicate rows:")
+print(df.duplicated().sum())
+
+# Check target values
+print("\nTarget values:")
+print(df["target"].value_counts().sort_index())
+
+# Check for invalid/missing values
+print("\nMissing values:")
+print(df.isnull().sum())
