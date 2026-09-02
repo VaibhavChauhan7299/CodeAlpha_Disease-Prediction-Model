@@ -20,3 +20,6 @@ print(df.dtypes)
 
 print("\nMissing value representation:")
 print((df == "?").sum())
+
+print("\nRows containing missing values:")
+print(df[df.isin(["?"]).any(axis=1)])
