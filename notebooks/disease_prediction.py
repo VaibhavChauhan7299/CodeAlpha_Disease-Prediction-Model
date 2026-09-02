@@ -900,3 +900,33 @@ plt.savefig(
 plt.close()
 
 print("\nFeature importance plot saved successfully!")
+
+# ==========================================
+# SAVE BEST MODEL AND PREPROCESSOR
+# ==========================================
+
+import joblib
+import os
+
+print("\n========== SAVING MODEL ==========")
+
+# Create models directory if it doesn't exist
+os.makedirs("models", exist_ok=True)
+
+# Save best model
+joblib.dump(
+    best_model,
+    "models/best_model.pkl"
+)
+
+# Save preprocessor
+joblib.dump(
+    preprocessor,
+    "models/preprocessor.pkl"
+)
+
+print("\nBest model saved successfully!")
+print("Location: models/best_model.pkl")
+
+print("\nPreprocessor saved successfully!")
+print("Location: models/preprocessor.pkl")
