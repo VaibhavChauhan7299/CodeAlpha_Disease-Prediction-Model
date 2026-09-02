@@ -930,3 +930,40 @@ print("Location: models/best_model.pkl")
 
 print("\nPreprocessor saved successfully!")
 print("Location: models/preprocessor.pkl")
+
+# ==========================================
+# LOAD & VERIFY SAVED MODEL
+# ==========================================
+
+import joblib
+
+print("\n========== LOADING SAVED MODEL ==========")
+
+# Load model
+loaded_model = joblib.load("models/best_model.pkl")
+
+# Load preprocessor
+loaded_preprocessor = joblib.load("models/preprocessor.pkl")
+
+print("\nSaved model loaded successfully!")
+print("Saved preprocessor loaded successfully!")
+
+# Transform test data using loaded preprocessor
+X_test_loaded = loaded_preprocessor.transform(X_test)
+
+# Make predictions using loaded model
+y_pred_loaded = loaded_model.predict(X_test_loaded)
+
+# Check predictions
+print("\nFirst 10 predictions:")
+print(y_pred_loaded[:10])
+
+print("\nFirst 10 actual values:")
+print(y_test.values[:10])
+
+# Check accuracy
+loaded_accuracy = accuracy_score(y_test, y_pred_loaded)
+
+print(f"\nLoaded model accuracy: {loaded_accuracy:.4f}")
+
+print("\nModel verification completed successfully!")
