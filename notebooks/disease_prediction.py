@@ -754,3 +754,76 @@ print(f"{xgb_grid.best_score_:.4f}")
 
 
 print("\nHyperparameter tuning completed successfully!")
+
+# ==========================================
+# CROSS VALIDATION & FINAL MODEL SELECTION
+# ==========================================
+
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+
+print("\n========== CROSS VALIDATION ==========")
+
+cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+# Best tuned models
+best_lr_model = lr_grid.best_estimator_
+best_rf_model = rf_grid.best_estimator_
+best_svm_model = svm_grid.best_estimator_
+best_xgb_model = xgb_grid.best_estimator_
+
+tuned_models = {
+    "Logistic Regression": best_lr_model,
+    "Random Forest": best_rf_model,
+    "SVM": best_svm_model,
+    "XGBoost": best_xgb_model
+}
+
+cv_results = []
+
+for model_name, model in tuned_models.items():
+
+    scores = cross_val_score(
+        model,
+        X_train_processed,
+        y_train,
+        cv=cv,
+        scoring="roc_auc",
+        n_jobs=-1
+    )
+
+    cv_results.append({
+        "Model": model_name,
+        "Mean ROC-AUC": scores.mean(),
+        "Std ROC-AUC": scores.std()
+    })
+
+    print(f"\n{model_name}:")
+    print(f"Fold ROC-AUC: {scores}")
+    print(f"Mean ROC-AUC: {scores.mean():.4f}")
+    print(f"Std ROC-AUC:  {scores.std():.4f}")
+
+
+# Create comparison DataFrame
+cv_results_df = pd.DataFrame(cv_results)
+
+print("\n========== CROSS-VALIDATION RESULTS ==========")
+print(cv_results_df.round(4).to_string(index=False))
+
+
+# Select best model based on mean ROC-AUC
+best_model_name = cv_results_df.loc[
+    cv_results_df["Mean ROC-AUC"].idxmax(),
+    "Model"
+]
+
+best_model = tuned_models[best_model_name] # pyright: ignore[reportArgumentType]
+
+print("\n========== FINAL MODEL ==========")
+print(f"Best Model: {best_model_name}")
+
+print("\nCross-validation results:")
+print(cv_results_df.round(4).to_string(index=False))
