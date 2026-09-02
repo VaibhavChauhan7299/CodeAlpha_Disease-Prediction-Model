@@ -384,3 +384,35 @@ print(f"Accuracy:  {dt_accuracy:.4f}")
 print(f"Precision: {dt_precision:.4f}")
 print(f"Recall:    {dt_recall:.4f}")
 print(f"F1 Score:  {dt_f1:.4f}")
+
+# ==========================================
+# RANDOM FOREST
+# ==========================================
+
+from sklearn.ensemble import RandomForestClassifier
+
+print("\n========== RANDOM FOREST ==========")
+
+# Create model
+random_forest_model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
+# Train model
+random_forest_model.fit(X_train_processed, y_train)
+
+# Make predictions
+y_pred_rf = random_forest_model.predict(X_test_processed)
+
+# Evaluate model
+rf_accuracy = accuracy_score(y_test, y_pred_rf)
+rf_precision = precision_score(y_test, y_pred_rf)
+rf_recall = recall_score(y_test, y_pred_rf)
+rf_f1 = f1_score(y_test, y_pred_rf)
+
+print("\nRandom Forest Results:")
+print(f"Accuracy:  {rf_accuracy:.4f}")
+print(f"Precision: {rf_precision:.4f}")
+print(f"Recall:    {rf_recall:.4f}")
+print(f"F1 Score:  {rf_f1:.4f}")
