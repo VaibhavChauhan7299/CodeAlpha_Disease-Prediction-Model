@@ -1,0 +1,61 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+__pycache__/
+*.py[cod]
+*.log
+
+.ipynb_checkpoints/
+
+.DS_Store
+
+.vscode/
+.idea/
+
+.env
+.env.*
+
+.streamlit/secrets.toml
+
+build/
+dist/
+*.egg-info/venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Python distribution
+build/
+dist/
+*.egg-info/
+EOF
