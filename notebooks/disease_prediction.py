@@ -827,3 +827,76 @@ print(f"Best Model: {best_model_name}")
 
 print("\nCross-validation results:")
 print(cv_results_df.round(4).to_string(index=False))
+
+# ==========================================
+# FEATURE IMPORTANCE
+# ==========================================
+
+from sklearn.inspection import permutation_importance
+
+print("\n========== FEATURE IMPORTANCE ==========")
+
+# Calculate permutation importance
+importance = permutation_importance(
+    best_model,
+    X_test_processed,
+    y_test,
+    scoring="roc_auc",
+    n_repeats=10,
+    random_state=42,
+    n_jobs=-1
+)
+
+# Get processed feature names
+feature_names = preprocessor.get_feature_names_out()
+
+# Create feature importance DataFrame
+feature_importance_df = pd.DataFrame({
+    "Feature": feature_names,
+    "Importance": importance.importances_mean # pyright: ignore[reportAttributeAccessIssue]
+})
+
+# Sort by importance
+feature_importance_df = feature_importance_df.sort_values(
+    by="Importance",
+    ascending=False
+)
+
+print("\nTop 15 Important Features:")
+print(
+    feature_importance_df.head(15).round(4).to_string(index=False)
+)
+
+# Save feature importance
+feature_importance_df.to_csv(
+    "eda_plots/feature_importance.csv",
+    index=False
+)
+
+# Plot top 15 features
+plt.figure(figsize=(10, 6))
+
+top_features = feature_importance_df.head(15).sort_values(
+    by="Importance"
+)
+
+plt.barh(
+    top_features["Feature"],
+    top_features["Importance"]
+)
+
+plt.xlabel("Permutation Importance")
+plt.ylabel("Feature")
+plt.title("Top 15 Feature Importance - SVM")
+
+plt.tight_layout()
+
+plt.savefig(
+    "eda_plots/feature_importance.png",
+    dpi=300,
+    bbox_inches="tight"
+)
+
+plt.close()
+
+print("\nFeature importance plot saved successfully!")
