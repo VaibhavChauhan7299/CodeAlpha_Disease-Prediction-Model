@@ -353,3 +353,34 @@ print(f"Accuracy:  {lr_accuracy:.4f}")
 print(f"Precision: {lr_precision:.4f}")
 print(f"Recall:    {lr_recall:.4f}")
 print(f"F1 Score:  {lr_f1:.4f}")
+
+# ==========================================
+# DECISION TREE
+# ==========================================
+
+from sklearn.tree import DecisionTreeClassifier
+
+print("\n========== DECISION TREE ==========")
+
+# Create model
+decision_tree_model = DecisionTreeClassifier(
+    random_state=42
+)
+
+# Train model
+decision_tree_model.fit(X_train_processed, y_train)
+
+# Make predictions
+y_pred_dt = decision_tree_model.predict(X_test_processed)
+
+# Evaluate model
+dt_accuracy = accuracy_score(y_test, y_pred_dt)
+dt_precision = precision_score(y_test, y_pred_dt)
+dt_recall = recall_score(y_test, y_pred_dt)
+dt_f1 = f1_score(y_test, y_pred_dt)
+
+print("\nDecision Tree Results:")
+print(f"Accuracy:  {dt_accuracy:.4f}")
+print(f"Precision: {dt_precision:.4f}")
+print(f"Recall:    {dt_recall:.4f}")
+print(f"F1 Score:  {dt_f1:.4f}")
