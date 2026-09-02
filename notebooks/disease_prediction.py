@@ -967,3 +967,45 @@ loaded_accuracy = accuracy_score(y_test, y_pred_loaded)
 print(f"\nLoaded model accuracy: {loaded_accuracy:.4f}")
 
 print("\nModel verification completed successfully!")
+
+# ==========================================
+# NEW PATIENT PREDICTION
+# ==========================================
+
+print("\n========== NEW PATIENT PREDICTION ==========")
+
+# Create a new patient
+new_patient = pd.DataFrame({
+    "age": [55],
+    "sex": [1],
+    "cp": [4],
+    "trestbps": [140],
+    "chol": [250],
+    "fbs": [0],
+    "restecg": [1],
+    "thalach": [150],
+    "exang": [0],
+    "oldpeak": [1.2],
+    "slope": [2],
+    "ca": [0],
+    "thal": [3]
+})
+
+# Transform patient data
+new_patient_processed = loaded_preprocessor.transform(new_patient)
+
+# Make prediction
+prediction = loaded_model.predict(new_patient_processed)[0]
+
+# Get probability
+probability = loaded_model.predict_proba(
+    new_patient_processed
+)[0][1]
+
+# Display result
+if prediction == 1:
+    print("\nPrediction: Heart Disease Risk")
+else:
+    print("\nPrediction: No Heart Disease Risk")
+
+print(f"Probability: {probability:.2%}")
