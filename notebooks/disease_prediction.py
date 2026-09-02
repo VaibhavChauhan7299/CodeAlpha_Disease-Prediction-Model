@@ -17,3 +17,6 @@ print(df.shape)
 # Display data types
 print("\nData types:")
 print(df.dtypes)
+
+print("\nMissing value representation:")
+print((df == "?").sum())
