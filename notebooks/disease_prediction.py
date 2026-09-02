@@ -268,3 +268,54 @@ print("\nTesting target shape:")
 print(y_test.shape)
 
 print("\nTrain/Test split completed successfully!")
+
+# ==========================================
+# DATA PREPROCESSING
+# ==========================================
+
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+
+print("\n========== DATA PREPROCESSING ==========")
+
+# Numerical preprocessing
+numerical_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler())
+])
+
+# Categorical preprocessing
+categorical_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore"))
+])
+
+# Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numerical_transformer, numerical_features),
+        ("cat", categorical_transformer, categorical_features)
+    ]
+)
+
+# Fit preprocessing only on training data
+X_train_processed = preprocessor.fit_transform(X_train)
+
+# Transform test data using the same fitted preprocessor
+X_test_processed = preprocessor.transform(X_test)
+
+print("\nOriginal training shape:")
+print(X_train.shape)
+
+print("\nProcessed training shape:")
+print(X_train_processed.shape)
+
+print("\nOriginal testing shape:")
+print(X_test.shape)
+
+print("\nProcessed testing shape:")
+print(X_test_processed.shape)
+
+print("\nData preprocessing completed successfully!")
