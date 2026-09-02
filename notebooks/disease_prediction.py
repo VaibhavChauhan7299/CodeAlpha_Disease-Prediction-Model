@@ -319,3 +319,37 @@ print("\nProcessed testing shape:")
 print(X_test_processed.shape)
 
 print("\nData preprocessing completed successfully!")
+
+
+# ==========================================
+# LOGISTIC REGRESSION
+# ==========================================
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+print("\n========== LOGISTIC REGRESSION ==========")
+
+# Create model
+logistic_model = LogisticRegression(
+    max_iter=1000,
+    random_state=42
+)
+
+# Train model
+logistic_model.fit(X_train_processed, y_train)
+
+# Make predictions
+y_pred_lr = logistic_model.predict(X_test_processed)
+
+# Evaluate model
+lr_accuracy = accuracy_score(y_test, y_pred_lr)
+lr_precision = precision_score(y_test, y_pred_lr)
+lr_recall = recall_score(y_test, y_pred_lr)
+lr_f1 = f1_score(y_test, y_pred_lr)
+
+print("\nLogistic Regression Results:")
+print(f"Accuracy:  {lr_accuracy:.4f}")
+print(f"Precision: {lr_precision:.4f}")
+print(f"Recall:    {lr_recall:.4f}")
+print(f"F1 Score:  {lr_f1:.4f}")
