@@ -416,3 +416,35 @@ print(f"Accuracy:  {rf_accuracy:.4f}")
 print(f"Precision: {rf_precision:.4f}")
 print(f"Recall:    {rf_recall:.4f}")
 print(f"F1 Score:  {rf_f1:.4f}")
+
+# ==========================================
+# SUPPORT VECTOR MACHINE (SVM)
+# ==========================================
+
+from sklearn.svm import SVC
+
+print("\n========== SUPPORT VECTOR MACHINE ==========")
+
+# Create model
+svm_model = SVC(
+    probability=True,
+    random_state=42
+)
+
+# Train model
+svm_model.fit(X_train_processed, y_train)
+
+# Make predictions
+y_pred_svm = svm_model.predict(X_test_processed)
+
+# Evaluate model
+svm_accuracy = accuracy_score(y_test, y_pred_svm)
+svm_precision = precision_score(y_test, y_pred_svm)
+svm_recall = recall_score(y_test, y_pred_svm)
+svm_f1 = f1_score(y_test, y_pred_svm)
+
+print("\nSVM Results:")
+print(f"Accuracy:  {svm_accuracy:.4f}")
+print(f"Precision: {svm_precision:.4f}")
+print(f"Recall:    {svm_recall:.4f}")
+print(f"F1 Score:  {svm_f1:.4f}")
