@@ -448,3 +448,39 @@ print(f"Accuracy:  {svm_accuracy:.4f}")
 print(f"Precision: {svm_precision:.4f}")
 print(f"Recall:    {svm_recall:.4f}")
 print(f"F1 Score:  {svm_f1:.4f}")
+
+# ==========================================
+# XGBOOST
+# ==========================================
+
+from xgboost import XGBClassifier
+
+print("\n========== XGBOOST ==========")
+
+xgb_model = XGBClassifier(
+    n_estimators=100,
+    max_depth=4,
+    learning_rate=0.1,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    eval_metric="logloss",
+    random_state=42
+)
+
+# Train the model
+xgb_model.fit(X_train_processed, y_train)
+
+# Make predictions
+y_pred_xgb = xgb_model.predict(X_test_processed)
+
+# Calculate metrics
+xgb_accuracy = accuracy_score(y_test, y_pred_xgb)
+xgb_precision = precision_score(y_test, y_pred_xgb)
+xgb_recall = recall_score(y_test, y_pred_xgb)
+xgb_f1 = f1_score(y_test, y_pred_xgb)
+
+print("\nXGBoost Results:")
+print(f"Accuracy:  {xgb_accuracy:.4f}")
+print(f"Precision: {xgb_precision:.4f}")
+print(f"Recall:    {xgb_recall:.4f}")
+print(f"F1 Score:  {xgb_f1:.4f}")
