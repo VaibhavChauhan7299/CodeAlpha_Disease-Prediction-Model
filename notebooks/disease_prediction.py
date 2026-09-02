@@ -179,3 +179,9 @@ print(y.shape)
 
 print("\nFeature columns:")
 print(X.columns.tolist())
+
+print("\nCategorical features:")
+print(categorical_features) # pyright: ignore[reportUndefinedVariable]
+
+print("\nNumerical features:")
+print(numerical_features) # pyright: ignore[reportUndefinedVariable]
