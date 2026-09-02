@@ -40,6 +40,12 @@ print(df.dtypes)
 # Convert ? to NaN
 df = df.replace("?", np.nan)
 
+# Convert all columns to numeric
+df = df.astype(float)
+
+print("\nData types after conversion:")
+print(df.dtypes)
+
 # Display missing values
 print("\nMissing values after conversion:")
 print(df.isnull().sum())
