@@ -484,3 +484,60 @@ print(f"Accuracy:  {xgb_accuracy:.4f}")
 print(f"Precision: {xgb_precision:.4f}")
 print(f"Recall:    {xgb_recall:.4f}")
 print(f"F1 Score:  {xgb_f1:.4f}")
+
+# ==========================================
+# MODEL EVALUATION
+# ==========================================
+
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    roc_auc_score,
+    confusion_matrix,
+    classification_report
+)
+
+print("\n========== MODEL EVALUATION ==========")
+
+# Store predictions
+predictions = {
+    "Logistic Regression": y_pred_lr,
+    "Decision Tree": y_pred_dt,
+    "Random Forest": y_pred_rf,
+    "SVM": y_pred_svm,
+    "XGBoost": y_pred_xgb
+}
+
+# Store probability predictions
+probabilities = {
+    "Logistic Regression": logistic_model.predict_proba(X_test_processed)[:, 1],
+    "Decision Tree": decision_tree_model.predict_proba(X_test_processed)[:, 1], # type: ignore
+    "Random Forest": random_forest_model.predict_proba(X_test_processed)[:, 1],
+    "SVM": svm_model.predict_proba(X_test_processed)[:, 1],
+    "XGBoost": xgb_model.predict_proba(X_test_processed)[:, 1]
+}
+
+# Evaluate each model
+evaluation_results = []
+
+for model_name in predictions:
+
+    y_pred = predictions[model_name]
+    y_prob = probabilities[model_name]
+
+    evaluation_results.append({
+        "Model": model_name,
+        "Accuracy": accuracy_score(y_test, y_pred),
+        "Precision": precision_score(y_test, y_pred),
+        "Recall": recall_score(y_test, y_pred),
+        "F1 Score": f1_score(y_test, y_pred),
+        "ROC-AUC": roc_auc_score(y_test, y_prob)
+    })
+
+# Create comparison DataFrame
+evaluation_df = pd.DataFrame(evaluation_results)
+
+print("\nModel Evaluation Results:")
+print(evaluation_df.round(4).to_string(index=False))
