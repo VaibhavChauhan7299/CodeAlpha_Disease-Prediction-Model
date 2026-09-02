@@ -541,3 +541,48 @@ evaluation_df = pd.DataFrame(evaluation_results)
 
 print("\nModel Evaluation Results:")
 print(evaluation_df.round(4).to_string(index=False))
+
+# ==========================================
+# CONFUSION MATRIX
+# ==========================================
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+print("\n========== CONFUSION MATRICES ==========")
+
+for model_name, y_pred in predictions.items():
+
+    cm = confusion_matrix(y_test, y_pred)
+
+    plt.figure(figsize=(6, 5))
+
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=["No Disease", "Disease"],
+        yticklabels=["No Disease", "Disease"]
+    )
+
+    plt.title(f"{model_name} - Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+
+    plt.tight_layout()
+
+    filename = (
+        model_name.lower()
+        .replace(" ", "_")
+        .replace("-", "_")
+    )
+
+    plt.savefig(
+        f"eda_plots/{filename}_confusion_matrix.png",
+        dpi=300
+    )
+
+    plt.close()
+
+print("\nConfusion matrices saved successfully!")
