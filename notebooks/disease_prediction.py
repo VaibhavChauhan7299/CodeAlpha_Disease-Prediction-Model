@@ -160,3 +160,22 @@ plt.figure(figsize=(12, 8))
 sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Feature Correlation Heatmap")
 plt.show()
+
+# ==========================================
+# FEATURE ENGINEERING
+# ==========================================
+
+print("\n========== FEATURE ENGINEERING ==========")
+
+# Separate features and target
+X = df.drop("target", axis=1)
+y = df["target"]
+
+print("\nFeatures shape:")
+print(X.shape)
+
+print("\nTarget shape:")
+print(y.shape)
+
+print("\nFeature columns:")
+print(X.columns.tolist())
