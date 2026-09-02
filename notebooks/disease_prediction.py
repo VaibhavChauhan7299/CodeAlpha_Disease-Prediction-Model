@@ -632,3 +632,125 @@ plt.savefig(
 plt.close()
 
 print("\nROC curve saved successfully!")
+
+# ==========================================
+# HYPERPARAMETER TUNING
+# ==========================================
+
+from sklearn.model_selection import GridSearchCV
+
+print("\n========== HYPERPARAMETER TUNING ==========")
+
+# ------------------------------------------
+# Logistic Regression
+# ------------------------------------------
+
+lr_params = {
+    "C": [0.01, 0.1, 1, 10, 100],
+    "solver": ["liblinear", "lbfgs"]
+}
+
+lr_grid = GridSearchCV(
+    LogisticRegression(max_iter=1000, random_state=42),
+    lr_params,
+    cv=5,
+    scoring="roc_auc",
+    n_jobs=-1
+)
+
+lr_grid.fit(X_train_processed, y_train)
+
+print("\nBest Logistic Regression Parameters:")
+print(lr_grid.best_params_)
+
+print("Best Logistic Regression CV ROC-AUC:")
+print(f"{lr_grid.best_score_:.4f}")
+
+
+# ------------------------------------------
+# Random Forest
+# ------------------------------------------
+
+rf_params = {
+    "n_estimators": [100, 200],
+    "max_depth": [None, 5, 10],
+    "min_samples_split": [2, 5],
+    "min_samples_leaf": [1, 2]
+}
+
+rf_grid = GridSearchCV(
+    RandomForestClassifier(random_state=42),
+    rf_params,
+    cv=5,
+    scoring="roc_auc",
+    n_jobs=-1
+)
+
+rf_grid.fit(X_train_processed, y_train)
+
+print("\nBest Random Forest Parameters:")
+print(rf_grid.best_params_)
+
+print("Best Random Forest CV ROC-AUC:")
+print(f"{rf_grid.best_score_:.4f}")
+
+
+# ------------------------------------------
+# SVM
+# ------------------------------------------
+
+svm_params = {
+    "C": [0.1, 1, 10, 100],
+    "kernel": ["linear", "rbf"],
+    "gamma": ["scale", "auto"]
+}
+
+svm_grid = GridSearchCV(
+    SVC(probability=True, random_state=42),
+    svm_params,
+    cv=5,
+    scoring="roc_auc",
+    n_jobs=-1
+)
+
+svm_grid.fit(X_train_processed, y_train)
+
+print("\nBest SVM Parameters:")
+print(svm_grid.best_params_)
+
+print("Best SVM CV ROC-AUC:")
+print(f"{svm_grid.best_score_:.4f}")
+
+
+# ------------------------------------------
+# XGBoost
+# ------------------------------------------
+
+xgb_params = {
+    "n_estimators": [100, 200],
+    "max_depth": [3, 4, 6],
+    "learning_rate": [0.01, 0.1],
+    "subsample": [0.8, 1.0]
+}
+
+xgb_grid = GridSearchCV(
+    XGBClassifier(
+        eval_metric="logloss",
+        random_state=42
+    ),
+    xgb_params,
+    cv=5,
+    scoring="roc_auc",
+    n_jobs=-1
+)
+
+xgb_grid.fit(X_train_processed, y_train)
+
+print("\nBest XGBoost Parameters:")
+print(xgb_grid.best_params_)
+
+print("Best XGBoost CV ROC-AUC:")
+print(f"{xgb_grid.best_score_:.4f}")
+
+
+print("\nHyperparameter tuning completed successfully!")
