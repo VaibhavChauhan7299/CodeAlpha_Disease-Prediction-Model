@@ -85,81 +85,102 @@ print(df["target"].value_counts())
 # EXPLORATORY DATA ANALYSIS (EDA)
 # ==========================================
 
+import os
+
+# Create folder for EDA graphs
+os.makedirs("eda_plots", exist_ok=True)
+
 print("\n========== EDA ==========")
 
-# Target distribution
-print("\nTarget distribution:")
-print(df["target"].value_counts())
-
+# 1. Target Distribution
 plt.figure(figsize=(6, 4))
 sns.countplot(x="target", data=df)
 plt.title("Heart Disease Distribution")
 plt.xlabel("Heart Disease (0 = No, 1 = Yes)")
 plt.ylabel("Number of Patients")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/target_distribution.png")
+plt.close()
 
 
-# Age distribution
+# 2. Age Distribution
 plt.figure(figsize=(8, 5))
 sns.histplot(data=df, x="age", bins=20, kde=True)
 plt.title("Age Distribution")
 plt.xlabel("Age")
 plt.ylabel("Number of Patients")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/age_distribution.png")
+plt.close()
 
 
-# Disease vs Age
+# 3. Age vs Heart Disease
 plt.figure(figsize=(8, 5))
 sns.boxplot(x="target", y="age", data=df)
 plt.title("Age vs Heart Disease")
 plt.xlabel("Heart Disease (0 = No, 1 = Yes)")
 plt.ylabel("Age")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/age_vs_disease.png")
+plt.close()
 
 
-# Disease vs Sex
+# 4. Sex vs Heart Disease
 plt.figure(figsize=(6, 4))
 sns.countplot(x="sex", hue="target", data=df)
 plt.title("Heart Disease by Sex")
 plt.xlabel("Sex (0 = Female, 1 = Male)")
 plt.ylabel("Number of Patients")
 plt.legend(title="Heart Disease")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/sex_vs_disease.png")
+plt.close()
 
 
-# Disease vs Chest Pain
+# 5. Chest Pain vs Heart Disease
 plt.figure(figsize=(8, 5))
 sns.countplot(x="cp", hue="target", data=df)
 plt.title("Heart Disease vs Chest Pain Type")
 plt.xlabel("Chest Pain Type")
 plt.ylabel("Number of Patients")
 plt.legend(title="Heart Disease")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/chest_pain_vs_disease.png")
+plt.close()
 
 
-# Cholesterol distribution
+# 6. Cholesterol Distribution
 plt.figure(figsize=(8, 5))
 sns.histplot(data=df, x="chol", bins=20, kde=True)
 plt.title("Cholesterol Distribution")
 plt.xlabel("Cholesterol")
 plt.ylabel("Number of Patients")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/cholesterol_distribution.png")
+plt.close()
 
 
-# Maximum heart rate distribution
+# 7. Maximum Heart Rate Distribution
 plt.figure(figsize=(8, 5))
 sns.histplot(data=df, x="thalach", bins=20, kde=True)
 plt.title("Maximum Heart Rate Distribution")
 plt.xlabel("Maximum Heart Rate")
 plt.ylabel("Number of Patients")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/heart_rate_distribution.png")
+plt.close()
 
 
-# Correlation heatmap
+# 8. Correlation Heatmap
 plt.figure(figsize=(12, 8))
 sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
 plt.title("Feature Correlation Heatmap")
-plt.show()
+plt.tight_layout()
+plt.savefig("eda_plots/correlation_heatmap.png")
+plt.close()
+
+print("\nEDA completed successfully!")
+print("EDA plots saved in: eda_plots/")
 
 # ==========================================
 # FEATURE ENGINEERING
@@ -180,8 +201,40 @@ print(y.shape)
 print("\nFeature columns:")
 print(X.columns.tolist())
 
+# Categorical features
+categorical_features = [
+    "sex",
+    "cp",
+    "fbs",
+    "restecg",
+    "exang",
+    "slope",
+    "ca",
+    "thal"
+]
+
+# Numerical features
+numerical_features = [
+    "age",
+    "trestbps",
+    "chol",
+    "thalach",
+    "oldpeak"
+]
+
 print("\nCategorical features:")
-print(categorical_features) # pyright: ignore[reportUndefinedVariable]
+print(categorical_features)
 
 print("\nNumerical features:")
-print(numerical_features) # pyright: ignore[reportUndefinedVariable]
+print(numerical_features)
+
+print("\nNumerical feature summary:")
+print(X[numerical_features].describe())
+
+print("\nCategorical feature values:")
+
+for column in categorical_features:
+    print(f"\n{column}:")
+    print(X[column].value_counts().sort_index())
+
+print("\nFeature engineering completed successfully!")
