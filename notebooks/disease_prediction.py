@@ -238,3 +238,33 @@ for column in categorical_features:
     print(X[column].value_counts().sort_index())
 
 print("\nFeature engineering completed successfully!")
+
+# ==========================================
+# TRAIN / TEST SPLIT
+# ==========================================
+
+from sklearn.model_selection import train_test_split
+
+print("\n========== TRAIN / TEST SPLIT ==========")
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
+)
+
+print("\nTraining features shape:")
+print(X_train.shape)
+
+print("\nTesting features shape:")
+print(X_test.shape)
+
+print("\nTraining target shape:")
+print(y_train.shape)
+
+print("\nTesting target shape:")
+print(y_test.shape)
+
+print("\nTrain/Test split completed successfully!")
